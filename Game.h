@@ -11,6 +11,8 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Network.hpp>
 
+#include "Menu.h"
+
 /*
 	class that acts as the game engine.
 	Wrapper class.
@@ -35,8 +37,10 @@ private:
 	sf::Text uiText;
 
 	//Texture
-	sf::Sprite sprite;
-	
+	sf::Texture texture;
+
+	//sprite
+	//sf::Sprite sprite;
 
 	//Game logic
 	bool endGame;
@@ -51,10 +55,13 @@ private:
 	std::vector<sf::RectangleShape> enemies;
 	sf::RectangleShape enemy;
 
+	Menu menu;
+
 	//Private functions
 	void initVariables();
 	void initWindow();
 	void initFonts();
+	void initTexture();
 	void initText();
 	void initEnemies();
 
@@ -78,6 +85,7 @@ public:
 	void update();
 
 	void renderText(sf::RenderTarget& target);
+	void renderTextures(sf::RenderTarget& target);
 	void renderEnemies(sf::RenderTarget& target);
 	void render();
 };

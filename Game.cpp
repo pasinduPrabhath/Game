@@ -23,14 +23,26 @@ void Game::initWindow()
 	this->window = new sf::RenderWindow(sf::VideoMode(640, 480), "First Game", sf::Style::Titlebar | sf::Style::Close | sf::Style::Close);
 	
 	this->window->setFramerateLimit(60);
+
+	//sf::Texture texture;
+	//texture.loadFromFile("Textures/sara.png");
+	//sf::Sprite sprite(texture);
+	//window->draw(sprite);
+	
+	
 }
 
 void Game::initFonts()
 {
 	if (this->font.loadFromFile("Fonts/Plaguard.otf"))
 	{
-		std::cout << "ERROR::GAME::INITFONTS::Failed to load font!" << "\n";
+		//std::cout << "ERROR::GAME::INITFONTS::Failed to load font!" << "\n";
 	}
+}
+
+void Game::initTexture()
+{
+	//this->texture.loadFromFile("Textures/sara.png");
 }
 
 void Game::initText()
@@ -54,8 +66,9 @@ void Game::initEnemies()
 Game::Game()
 {
 	this->initVariables();
-	this->initWindow();
+	this->initWindow(); 
 	this->initFonts();
+	//this->initTexture();
 	this->initText();
 	this->initEnemies();
 }
@@ -101,11 +114,11 @@ void Game::spawnEnemy()
 	switch (type)
 	{
 	case 0:
-		this->enemy.setSize(sf::Vector2f(10.f, 10.f));
+		this->enemy.setSize(sf::Vector2f(40.f, 40.f));
 		this->enemy.setFillColor(sf::Color::Magenta);
 		break;
 	case 1:
-		this->enemy.setSize(sf::Vector2f(30.f, 30.f));
+		this->enemy.setSize(sf::Vector2f(45.f, 45.f));
 		this->enemy.setFillColor(sf::Color::Blue);
 		break;
 	case 2:
@@ -274,6 +287,11 @@ void Game::renderText(sf::RenderTarget& target)
 	target.draw(this->uiText);
 }
 
+void Game::renderTextures(sf::RenderTarget& target)
+{
+	//target.draw(this->sprite);
+}
+
 void Game::renderEnemies(sf::RenderTarget& target)
 {
 	//Rendering all the enemies
@@ -281,6 +299,8 @@ void Game::renderEnemies(sf::RenderTarget& target)
 	{
 		target.draw(e);
 	}
+
+
 }
 
 void Game::render()
@@ -290,7 +310,11 @@ void Game::render()
 	//Draw game objects
 	this->renderEnemies(*this->window);
 
+	this->menu.render(this->window);
+
 	this->renderText(*this->window);
+
+	this->renderTextures(*this->window);
 
 	this->window->display();
 }
