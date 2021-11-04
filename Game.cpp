@@ -6,6 +6,7 @@ void Game::initVariables()
 	this->window = nullptr;
 
 	//Game logic
+	this->menuOpen = true;
 	this->endGame = false;
 	this->points = 0;
 	this->health = 20;
@@ -20,7 +21,7 @@ void Game::initWindow()
 	this->videomode.height = 600;
 	this->videomode.width = 800;
 
-	this->window = new sf::RenderWindow(sf::VideoMode(640, 480), "First Game", sf::Style::Titlebar | sf::Style::Close | sf::Style::Close);
+	this->window = new sf::RenderWindow(sf::VideoMode(1280, 720), "First Game", sf::Style::Titlebar | sf::Style::Close | sf::Style::Close);
 	
 	this->window->setFramerateLimit(60);
 
@@ -34,10 +35,7 @@ void Game::initWindow()
 
 void Game::initFonts()
 {
-	if (this->font.loadFromFile("Fonts/Plaguard.otf"))
-	{
-		//std::cout << "ERROR::GAME::INITFONTS::Failed to load font!" << "\n";
-	}
+	this->font.loadFromFile("Fonts/Plaguard.otf");
 }
 
 void Game::initTexture()
@@ -51,6 +49,14 @@ void Game::initText()
 	this->uiText.setCharacterSize(24);
 	this->uiText.setFillColor(sf::Color::White);
 	this->uiText.setString("NONE");
+}
+
+void Game::initStartText()
+{
+	this->menuText.setFont(this->font);
+	this->menuText.setCharacterSize(40);
+	this->menuText.setFillColor(sf::Color::White);
+	this->menuText.setString("NONE");
 }
 
 void Game::initEnemies()
@@ -109,7 +115,7 @@ void Game::spawnEnemy()
 	);
 
 	//Randomize enemy type
-	int type = rand() % 5;
+	int type = rand() % 8;
 
 	switch (type)
 	{
@@ -154,7 +160,10 @@ void Game::pollEvents()
 		case sf::Event::Closed:
 				this->window->close();
 				break;
-			case sf::Event::KeyPressed:
+
+		case sf::Event::KeyPressed:
+				if (ev.key.code == sf::Keyboard::Enter)
+					this->menuOpen = false;
 				if (ev.key.code == sf::Keyboard::Escape)
 					this->window->close();
 				break;
@@ -183,6 +192,15 @@ void Game::updateText()
 		<< "Health: " << this->health << "\n";
 
 	this->uiText.setString(ss.str());
+
+	if (menuOpen)
+	{
+		std::stringstream texts;
+		texts << "gg works";
+		this->menuText.setString(texts.str());
+		menuText.setPosition(600.f, 300.f);
+	}
+
 }
 
 void Game::updateEnemies()
@@ -193,13 +211,13 @@ void Game::updateEnemies()
 		Updates the enemy spawn timer and spawns enemies
 		when the total amount of enemies is smaller than the maximum.
 		Moves the enemies downwards.
-		Removes the enemies at the edge of the screen. //TODO	
+		Removes the enemies at the edge of the screen.
 	*/
 
 	//Updating the timer for enemy spawning
 	if (this->enemies.size() < this->maxEnemies)
 	{
-		if (this->enemySpawnTimer >= this->enemySpawnTimerMax)
+		if (this->enemySpawnTimer >= this->enemySpawnTimerMax && !menuOpen)//checking menuOpen bool and starting the game
 		{
 			//Spawn the enemy and reset the timer
 			this->spawnEnemy();
@@ -244,9 +262,9 @@ void Game::updateEnemies()
 					else if (this->enemies[i].getFillColor() == sf::Color::Cyan)
 						this->points += 5;
 					else if (this->enemies[i].getFillColor() == sf::Color::Red)
-						this->points += 3;
+						this->points += 7;
 					else if (this->enemies[i].getFillColor() == sf::Color::Green)
-						this->points += 1;
+						this->points += 5;
 
 					std::cout << "Points : " << this->points << "\n";
 
@@ -285,6 +303,7 @@ void Game::update()
 void Game::renderText(sf::RenderTarget& target)
 {
 	target.draw(this->uiText);
+	target.draw(this->menuText);
 }
 
 void Game::renderTextures(sf::RenderTarget& target)
@@ -310,7 +329,7 @@ void Game::render()
 	//Draw game objects
 	this->renderEnemies(*this->window);
 
-	this->menu.render(this->window);
+	//this->menu.render(this->window);
 
 	this->renderText(*this->window);
 

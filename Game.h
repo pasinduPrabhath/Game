@@ -35,6 +35,7 @@ private:
 
 	//Text
 	sf::Text uiText;
+	sf::Text menuText;
 
 	//Texture
 	sf::Texture texture;
@@ -44,6 +45,7 @@ private:
 
 	//Game logic
 	bool endGame;
+	bool menuOpen;
 	unsigned points;
 	int health;
 	float enemySpawnTimer;
@@ -55,7 +57,7 @@ private:
 	std::vector<sf::RectangleShape> enemies;
 	sf::RectangleShape enemy;
 
-	Menu menu;
+	//Menu menu;
 
 	//Private functions
 	void initVariables();
@@ -63,6 +65,7 @@ private:
 	void initFonts();
 	void initTexture();
 	void initText();
+	void initStartText();
 	void initEnemies();
 
 public:
@@ -76,7 +79,6 @@ public:
 
 	//Functions
 	void spawnEnemy();
-	
 
 	void pollEvents();
 	void updateMousePositions();
