@@ -46,6 +46,7 @@ private:
 	//Game logic
 	bool endGame;
 	bool menuOpen;
+	bool menuOpen2;
 	unsigned points;
 	int health;
 	float enemySpawnTimer;

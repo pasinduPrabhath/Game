@@ -7,6 +7,7 @@ void Game::initVariables()
 
 	//Game logic
 	this->menuOpen = true;
+	this->menuOpen2 = true;
 	this->endGame = false;
 	this->points = 0;
 	this->health = 20;
@@ -48,7 +49,7 @@ void Game::initText()
 	this->uiText.setFont(this->font);
 	this->uiText.setCharacterSize(24);
 	this->uiText.setFillColor(sf::Color::White);
-	this->uiText.setString("NONE");
+	this->uiText.setString("");
 }
 
 void Game::initStartText()
@@ -76,6 +77,7 @@ Game::Game()
 	this->initFonts();
 	//this->initTexture();
 	this->initText();
+	this->initStartText();
 	this->initEnemies();
 }
 
@@ -115,7 +117,7 @@ void Game::spawnEnemy()
 	);
 
 	//Randomize enemy type
-	int type = rand() % 8;
+	int type = rand() % 5;
 
 	switch (type)
 	{
@@ -175,7 +177,6 @@ void Game::updateMousePositions()
 {
 	/*
 		return void
-
 		updates the mouse positions
 		mouse position relative to window(vector2i)
 	*/
@@ -186,19 +187,25 @@ void Game::updateMousePositions()
 
 void Game::updateText()
 {
-	std::stringstream ss;
+	if (!menuOpen)
+	{
+		std::stringstream ss;
 
-	ss << "Points: " << this->points << "\n"
-		<< "Health: " << this->health << "\n";
+		ss << "Points: " << this->points << "\n"
+			<< "Health: " << this->health << "\n";
 
-	this->uiText.setString(ss.str());
+		this->uiText.setString(ss.str());
+	}
 
-	if (menuOpen)
+
+	if (menuOpen2)
 	{
 		std::stringstream texts;
-		texts << "gg works";
+		texts << "Press Enter to continue...";
 		this->menuText.setString(texts.str());
-		menuText.setPosition(600.f, 300.f);
+		menuText.setPosition(350.f, 300.f);
+		menuOpen2 = false;
+		
 	}
 
 }
@@ -217,11 +224,16 @@ void Game::updateEnemies()
 	//Updating the timer for enemy spawning
 	if (this->enemies.size() < this->maxEnemies)
 	{
+
 		if (this->enemySpawnTimer >= this->enemySpawnTimerMax && !menuOpen)//checking menuOpen bool and starting the game
 		{
 			//Spawn the enemy and reset the timer
 			this->spawnEnemy();
 			this->enemySpawnTimer = 0.f;
+
+			//remove the startup text
+			menuText.setCharacterSize(0.f);
+			menuText.setFillColor(sf::Color::Transparent);
 		}
 		else
 		{
@@ -304,8 +316,8 @@ void Game::renderText(sf::RenderTarget& target)
 {
 	target.draw(this->uiText);
 	target.draw(this->menuText);
-}
 
+}
 void Game::renderTextures(sf::RenderTarget& target)
 {
 	//target.draw(this->sprite);
