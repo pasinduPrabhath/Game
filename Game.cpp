@@ -8,10 +8,11 @@ void Game::initVariables()
 	//Game logic
 	this->menuOpen = true;
 	this->menuOpen2 = true;
+	this->endMenuScreen = false;
 	this->endGame = false;
 	this->points = 0;
-	this->health = 20;
-	this->enemySpawnTimerMax = 20.f;
+	this->health = 10;
+	this->enemySpawnTimerMax = 15.f;
 	this->enemySpawnTimer = this->enemySpawnTimerMax;
 	this->maxEnemies = 5;
 	this->mouseHeld = false;
@@ -60,6 +61,14 @@ void Game::initStartText()
 	this->menuText.setString("NONE");
 }
 
+void Game::initEndText()
+{
+	this->endScreenText.setFont(this->font);
+	this->endScreenText.setCharacterSize(40);
+	this->endScreenText.setFillColor(sf::Color::White);
+	this->endScreenText.setString("");
+}
+
 void Game::initEnemies()
 {
 	this->enemy.setPosition(10.f, 10.f);
@@ -78,6 +87,7 @@ Game::Game()
 	//this->initTexture();
 	this->initText();
 	this->initStartText();
+	this->initEndText();
 	this->initEnemies();
 }
 
@@ -203,7 +213,7 @@ void Game::updateMousePositions()
 
 void Game::updateText()
 {
-	if (!menuOpen)
+	if (!menuOpen && !endMenuScreen)
 	{
 		std::stringstream ss;
 
@@ -222,6 +232,15 @@ void Game::updateText()
 		menuText.setPosition(350.f, 300.f);
 		menuOpen2 = false;
 		
+	}
+
+	if (endMenuScreen)
+	{
+		std::stringstream endtext;
+		endtext << "YOU LOST!";
+		this->endScreenText.setString(endtext.str());
+		endScreenText.setPosition(520.f, 300.f);
+		//endMenuScreen = false;
 	}
 
 }
@@ -324,14 +343,17 @@ void Game::update()
 	}
 
 	//End game condition
-	if (this->health <= 0)
-		this->endGame = true;
+	if (this->health < 0)
+		endMenuScreen = true;
+		//this->endGame = true;//End game use this line to display end game text
 }
 
 void Game::renderText(sf::RenderTarget& target)
 {
 	target.draw(this->uiText);
+	target.draw(this->endScreenText);
 	target.draw(this->menuText);
+
 
 }
 void Game::renderTextures(sf::RenderTarget& target)
@@ -342,6 +364,7 @@ void Game::renderTextures(sf::RenderTarget& target)
 void Game::renderEnemies(sf::RenderTarget& target)
 {
 	//Rendering all the enemies
+	if(!endMenuScreen)//to stop rendering enemies after losing
 	for (auto& e : this->enemies)
 	{
 		target.draw(e);

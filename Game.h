@@ -35,6 +35,7 @@ private:
 	//Text
 	sf::Text uiText;
 	sf::Text menuText;
+	sf::Text endScreenText;
 
 	//Texture
 	sf::Texture texture;
@@ -45,7 +46,8 @@ private:
 	//Game logic
 	bool endGame;
 	bool menuOpen;
-	bool menuOpen2;
+	bool menuOpen2;//start screen
+	bool endMenuScreen;//end screen
 	unsigned points;
 	int health;
 	float enemySpawnTimer;
@@ -66,6 +68,7 @@ private:
 	void initTexture();
 	void initText();
 	void initStartText();
+	void initEndText();
 	void initEnemies();
 
 public:
