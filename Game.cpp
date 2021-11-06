@@ -37,7 +37,7 @@ void Game::initWindow()
 
 void Game::initFonts()
 {
-	this->font.loadFromFile("Fonts/Plaguard.otf");
+	this->font.loadFromFile("Fonts/NewFont.otf");
 }
 
 void Game::initTexture()
@@ -48,7 +48,7 @@ void Game::initTexture()
 void Game::initText()
 {
 	this->uiText.setFont(this->font);
-	this->uiText.setCharacterSize(24);
+	this->uiText.setCharacterSize(35);
 	this->uiText.setFillColor(sf::Color::White);
 	this->uiText.setString("");
 }
@@ -56,7 +56,7 @@ void Game::initText()
 void Game::initStartText()
 {
 	this->menuText.setFont(this->font);
-	this->menuText.setCharacterSize(40);
+	this->menuText.setCharacterSize(55);
 	this->menuText.setFillColor(sf::Color::White);
 	this->menuText.setString("NONE");
 }
@@ -64,7 +64,7 @@ void Game::initStartText()
 void Game::initEndText()
 {
 	this->endScreenText.setFont(this->font);
-	this->endScreenText.setCharacterSize(40);
+	this->endScreenText.setCharacterSize(60);
 	this->endScreenText.setFillColor(sf::Color::White);
 	this->endScreenText.setString("");
 }
@@ -217,8 +217,8 @@ void Game::updateText()
 	{
 		std::stringstream ss;
 
-		ss << "Points: " << this->points << "\n"
-			<< "Health: " << this->health << "\n";
+		ss << "Points   " << this->points << "\n"
+			<< "Health   " << this->health << "\n";
 
 		this->uiText.setString(ss.str());
 	}
@@ -227,9 +227,9 @@ void Game::updateText()
 	if (menuOpen2)
 	{
 		std::stringstream texts;
-		texts << "Press Enter to continue...";
+		texts << "     Hurry Up Click On Tiles\nBefore Your Health Drains Out !\n\n     Press Enter to start...";
 		this->menuText.setString(texts.str());
-		menuText.setPosition(350.f, 300.f);
+		menuText.setPosition(450.f, 230.f);
 		menuOpen2 = false;
 		
 	}
@@ -237,9 +237,9 @@ void Game::updateText()
 	if (endMenuScreen)
 	{
 		std::stringstream endtext;
-		endtext << "YOU LOST!";
+		endtext << "\t YOU LOST!\nPress Esc to quit.";
 		this->endScreenText.setString(endtext.str());
-		endScreenText.setPosition(520.f, 300.f);
+		endScreenText.setPosition(480.f, 280.f);
 		//endMenuScreen = false;
 	}
 
@@ -302,18 +302,21 @@ void Game::updateEnemies()
 				if (this->enemies[i].getGlobalBounds().contains(this->mousePosView))
 				{
 					//Gain points
-					if (this->enemies[i].getFillColor() == sf::Color::Magenta)
-						this->points += 10;
-					else if (this->enemies[i].getFillColor() == sf::Color::Blue)
-						this->points += 7;
-					else if (this->enemies[i].getFillColor() == sf::Color::Cyan)
-						this->points += 5;
-					else if (this->enemies[i].getFillColor() == sf::Color::Red)
-						this->points += 7;
-					else if (this->enemies[i].getFillColor() == sf::Color::Green)
-						this->points += 5;
+					if (!endMenuScreen)
+					{
+						if (this->enemies[i].getFillColor() == sf::Color::Magenta)
+							this->points += 10;
+						else if (this->enemies[i].getFillColor() == sf::Color::Blue)
+							this->points += 7;
+						else if (this->enemies[i].getFillColor() == sf::Color::Cyan)
+							this->points += 5;
+						else if (this->enemies[i].getFillColor() == sf::Color::Red)
+							this->points += 7;
+						else if (this->enemies[i].getFillColor() == sf::Color::Green)
+							this->points += 5;
 
-					std::cout << "Points : " << this->points << "\n";
+						std::cout << "Points : " << this->points << "\n";
+					}
 
 					//Delete the enemy
 					deleted = true;
