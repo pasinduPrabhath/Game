@@ -11,7 +11,6 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Network.hpp>
 
-#include "Menu.h"
 
 /*
 	class that acts as the game engine.

@@ -22,7 +22,7 @@ void Game::initWindow()
 	this->videomode.height = 600;
 	this->videomode.width = 800;
 
-	this->window = new sf::RenderWindow(sf::VideoMode(1280, 720), "First Game", sf::Style::Titlebar | sf::Style::Close | sf::Style::Close);
+	this->window = new sf::RenderWindow(sf::VideoMode(1280, 720), "First Game", sf::Style::Titlebar | sf::Style::Close );
 	
 	this->window->setFramerateLimit(60);
 
@@ -117,20 +117,20 @@ void Game::spawnEnemy()
 	);
 
 	//Randomize enemy type
-	int type = rand() % 5;
+	int type = rand() % 9;
 
 	switch (type)
 	{
 	case 0:
-		this->enemy.setSize(sf::Vector2f(40.f, 40.f));
+		this->enemy.setSize(sf::Vector2f(70.f, 70.f));
 		this->enemy.setFillColor(sf::Color::Magenta);
 		break;
 	case 1:
-		this->enemy.setSize(sf::Vector2f(45.f, 45.f));
+		this->enemy.setSize(sf::Vector2f(75.f, 75.f));
 		this->enemy.setFillColor(sf::Color::Blue);
 		break;
 	case 2:
-		this->enemy.setSize(sf::Vector2f(50.f, 50.f));
+		this->enemy.setSize(sf::Vector2f(80.f, 80.f));
 		this->enemy.setFillColor(sf::Color::Cyan);
 		break;
 	case 3:
@@ -140,6 +140,22 @@ void Game::spawnEnemy()
 	case 4:
 		this->enemy.setSize(sf::Vector2f(100.f, 100.f));
 		this->enemy.setFillColor(sf::Color::Green);
+		break;
+	case 5:
+		this->enemy.setSize(sf::Vector2f(100.f, 100.f));
+		this->enemy.setFillColor(sf::Color::Magenta);
+		break;
+	case 6:
+		this->enemy.setSize(sf::Vector2f(100.f, 100.f));
+		this->enemy.setFillColor(sf::Color::Yellow);
+		break;
+	case 7:
+		this->enemy.setSize(sf::Vector2f(100.f, 100.f));
+		this->enemy.setFillColor(sf::Color::White);
+		break;
+	case 8:
+		this->enemy.setSize(sf::Vector2f(100.f, 100.f));
+		this->enemy.setFillColor(sf::Color::Yellow);
 		break;
 	default:
 		this->enemy.setSize(sf::Vector2f(100.f, 100.f));
