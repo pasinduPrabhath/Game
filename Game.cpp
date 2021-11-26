@@ -105,6 +105,7 @@ const bool Game::running() const
 const bool Game::getEndGame() const
 {
 	return this->endGame;
+	//sdsd
 }
 
 void Game::spawnEnemy()
