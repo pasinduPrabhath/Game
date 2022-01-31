@@ -288,7 +288,7 @@ void Game::updateEnemies()
 		{
 			this->enemies.erase(this->enemies.begin() + i);
 			this->health -= 1;
-			std::cout << "Health : " << this->health << "\n";
+			//std::cout << "Health : " << this->health << "\n";
 		}
 	}
 	//Check if clicked upon
@@ -316,7 +316,7 @@ void Game::updateEnemies()
 						else if (this->enemies[i].getFillColor() == sf::Color::Green)
 							this->points += 5;
 
-						std::cout << "Points : " << this->points << "\n";
+						//std::cout << "Points : " << this->points << "\n";
 					}
 
 					//Delete the enemy
